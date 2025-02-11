@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Modal from "../Modal/Modal";
+import AuthModal from "../../features/auth/Auth";
 
 import "./navbar.css";
 import api from "../../services/api";
@@ -22,15 +22,19 @@ function Navbar() {
     const token = localStorage.getItem("accessToken");
     if (token) {
       try {
-        const { data } = await api.get("/me", {
+        const { data } = await api.get("/auth/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setIsLoggedIn(true);
         setUserInfo({ name: data.name, avatar: data.avatar });
+        console.log(data);
       } catch (error) {
-        console.error("Erro ao obter dados do usuário:", error);
+        console.error(
+          "Erro ao obter dados do usuário:",
+          error.response || error.message
+        );
         setIsLoggedIn(false);
         setUserInfo({ name: "Usuário", avatar: null });
       }
@@ -51,7 +55,7 @@ function Navbar() {
 
   async function handleLogin(email, password) {
     try {
-      const { data } = await api.post("/login", { email, password });
+      const { data } = await api.post("/auth/login", { email, password });
       localStorage.setItem("accessToken", data.accessToken);
       loadUserData();
       setModalOpen(false);
@@ -191,7 +195,7 @@ function Navbar() {
         )}
       </nav>
 
-      <Modal
+      <AuthModal
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         handleLogin={handleLogin}
