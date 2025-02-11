@@ -20,6 +20,8 @@ model User {
   password String?
   tokens   Token[]
   avatar   String?
+  role     String  @default("user")
+  orders   Order[]
 }
 
 model Token {
@@ -28,4 +30,26 @@ model Token {
   userId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+}
+
+model Pizza {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String
+  price       Float
+  imageUrl    String
+  orders      Order[]
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  pizzaId   Int
+  quantity  Int
+  total     Float
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pizza Pizza @relation(fields: [pizzaId], references: [id], onDelete: Cascade)
 }

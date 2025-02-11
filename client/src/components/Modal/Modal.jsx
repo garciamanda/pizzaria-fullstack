@@ -9,7 +9,7 @@ function Modal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
   const passwordRef = useRef();
   const nameRef = useRef();
   const avatarRef = useRef();
-  const formRef = useRef(); 
+  const formRef = useRef();
 
   async function handleLoginSubmit(e) {
     e.preventDefault();
@@ -47,14 +47,11 @@ function Modal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
     try {
       const googleToken = response.credential;
 
-      
       const { data } = await api.post("/auth/google", { token: googleToken });
 
-      
       localStorage.setItem("accessToken", data.accessToken);
 
-      
-      window.location.reload(); 
+      window.location.reload();
       setModalOpen(false);
     } catch (error) {
       alert("Erro ao autenticar com o Google");
