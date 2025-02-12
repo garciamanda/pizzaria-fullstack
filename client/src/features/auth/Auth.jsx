@@ -1,5 +1,6 @@
 import api from "../../services/api";
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -11,21 +12,27 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
   //   const avatarRef = useRef();
   const formRef = useRef();
 
+  const navigate = useNavigate();
+
   async function handleLoginSubmit(e) {
     e.preventDefault();
 
     try {
-      // Faz a requisição para login
       const { data } = await api.post("/auth/login", {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       });
 
-      // Armazena os tokens no localStorage
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("userRole", data.role);
 
-      // Faz o login automaticamente após o cadastro (sem precisar pedir senha novamente)
+      if (data.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
       window.location.reload();
       setModalOpen(false);
     } catch (error) {
@@ -43,16 +50,11 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
     formData.append("password", passwordRef.current.value);
 
     try {
-      // Faz a requisição para cadastro com name, email e password no backend
       const { data } = await api.post("/auth/register", formData);
-      
 
-
-      // Armazena os tokens no localStorage
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
 
-      // Após o cadastro, faz o login automaticamente
       handleLogin(emailRef.current.value, passwordRef.current.value);
 
       setModalOpen(false);
@@ -66,10 +68,8 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
     try {
       const googleToken = response.credential;
 
-      // Requisição para login com Google
       const { data } = await api.post("/auth/google", { token: googleToken });
 
-      // Armazena os tokens no localStorage
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
 

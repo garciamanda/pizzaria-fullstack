@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Cadastro from "./pages/Cadastro";
+
 import Login from "./pages/Login";
-import ListarUsuarios from "./pages/Lista";
+import AdminPage from "./pages/Admin";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home";
 
@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/listar-usuarios" element={<ListarUsuarios />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </BrowserRouter>
   );

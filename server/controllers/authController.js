@@ -23,9 +23,7 @@ export const login = async (req, res) => {
     const accessToken = generateAccessToken(user);
     const refreshToken = await generateRefreshToken(user);
 
-    console.log("Refresh Token gerado:", refreshToken); // Verifique no console
-
-    res.json({ accessToken, refreshToken });
+    res.json({ accessToken, refreshToken, role: user.role });
   } catch (err) {
     res.status(500).json({ error: "Erro ao fazer login." });
   }
@@ -70,8 +68,6 @@ export const register = async (req, res) => {
     const accessToken = generateAccessToken(user);
     const refreshToken = await generateRefreshToken(user);
 
-    console.log("Refresh Token gerado:", refreshToken); // Verifique no console
-
     res.json({ accessToken, refreshToken });
   } catch (err) {
     console.error("Erro ao registrar usuário:", err);
@@ -81,10 +77,18 @@ export const register = async (req, res) => {
   }
 };
 
-// mostrar usuário informações do usuário logado
 export const me = async (req, res) => {
   try {
-    res.json(req.user);
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+    });
+
+    res.status(200).json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
   } catch (err) {
     res.status(500).json({ error: "Erro ao obter informações do usuário." });
   }
