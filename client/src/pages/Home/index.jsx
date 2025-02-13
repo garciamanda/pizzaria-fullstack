@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Modal from "../../components/Modal/ModalProduto";
 import "./index.css";
 
 import "swiper/css";
@@ -16,7 +17,7 @@ import slide_image5 from "/assets/pizza5.avif";
 import slide_image6 from "/assets/jardineira-delicioso.jpg";
 import slide_image7 from "/assets/pizza(18).jpg";
 
-import Produto from "../../components/Pizza/Produto";
+import Produto from "../../components/Produto/Produto";
 
 function Home() {
   const [isFloating, setIsFloating] = useState(false);
@@ -132,6 +133,39 @@ function Home() {
       descricao:
         "Tabua de Antepasto são pequenas pizzas assadas, recheadas com queijo derretido, presunto e ervas. Servidas com molho marinara, são uma entrada deliciosa e cheia de sabor!",
       preco: "29.90",
+    },
+  ];
+
+  const bebidas = [
+    {
+      imagem: "/assets/bebida(1).jpeg",
+      nome: "Fanta Laranja",
+      descricao: "",
+      preco: "5.00",
+    },
+    {
+      imagem: "/assets/bebida(2).jpeg",
+      nome: "Fanta Uva",
+      descricao: "",
+      preco: "5.00",
+    },
+    {
+      imagem: "/assets/bebida(3).jpeg",
+      nome: "Sprite",
+      descricao: "",
+      preco: "5.00",
+    },
+    {
+      imagem: "/assets/bebida(4).jpeg",
+      nome: "Guarana",
+      descricao: "",
+      preco: "5.00",
+    },
+    {
+      imagem: "/assets/bebida(5).webp",
+      nome: "Coca-cola",
+      descricao: "",
+      preco: "5.00",
     },
   ];
 
@@ -392,6 +426,30 @@ function Home() {
               nome={entrada.nome}
               descricao={entrada.descricao}
               preco={entrada.preco}
+            />
+          ))}
+        </div>
+
+        <div className="cardapio-title mb-7">
+          <h2 className="mt-12 text-center md:text-left md:ml-20 lg:text-left font-extrabold text-2xl lg:text-4xl lg:ml-20">
+            Bebidas
+          </h2>
+          <p className="mt-4 text-[18px] text-[#808080] text-center md:text-left md:ml-20">
+            AS BEBIDAS MAIS GOSTOSAS E GELADAS PARA ACOMPANHAR!
+          </p>
+        </div>
+
+        <div
+          className="cardapio grid  gap-x-[1px] gap-y-5 lg:ml-20 md:ml-20 ml-5 mr-5 mt-2 mb-8 px-0"
+          id="cardapio-bebidas"
+        >
+          {bebidas.map((bebida, index) => (
+            <Produto
+              key={index}
+              imagem={bebida.imagem}
+              nome={bebida.nome}
+              descricao={bebida.descricao}
+              preco={bebida.preco}
             />
           ))}
         </div>

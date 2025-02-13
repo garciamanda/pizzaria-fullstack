@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import ModalProduto from "../Modal/ModalProduto";
 
 function Produto({ imagem, nome, descricao, preco }) {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
-    <div className="cardapio-content m-0 p-3 flex border border-gray-300 rounded-lg bg-white shadow-md max-w-[400px] gap-4">
+    <div
+      className="cardapio-content m-0 p-3 flex border border-gray-300 rounded-lg bg-white shadow-md max-w-[400px] gap-4"
+      onClick={() => setModalOpen(true)}
+    >
       <img
         src={imagem}
         alt={nome}
@@ -18,6 +24,7 @@ function Produto({ imagem, nome, descricao, preco }) {
           <p className="preco-cardapio text-[15px] font-bold">R$ {preco}</p>
         </div>
       </div>
+      <ModalProduto modalOpen={modalOpen} setModalOpen={setModalOpen} />
     </div>
   );
 }
