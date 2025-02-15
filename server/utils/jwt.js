@@ -17,18 +17,21 @@ export const generateAccessToken = (user) => {
 
 // Função para gerar token de atualização
 export const generateRefreshToken = async (user) => {
-  // Gere o refreshToken
-  const refreshToken = generateToken(
+  // Remover tokens antigos antes de criar um novo
+  await prisma.token.deleteMany({
+    where: { userId: user.id },
+  });
+
+  const refreshToken = jwt.sign(
     { id: user.id, email: user.email, role: user.role },
     process.env.JWT_SECRET_REFRESH,
-    "7d"
+    { expiresIn: "7d" }
   );
 
-  // Salve o refreshToken no banco de dados
   await prisma.token.create({
     data: {
       token: refreshToken,
-      userId: user.id, // Relaciona com o ID do usuário
+      userId: user.id,
     },
   });
 
@@ -57,16 +60,20 @@ export const refreshAccessToken = async (refreshToken) => {
       throw new Error("Refresh token inválido ou revogado.");
     }
 
-    // Gere um novo accessToken
-    const newAccessToken = generateAccessToken({
-      id: decoded.id,
-      email: decoded.email,
-      role: decoded.role,
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
     });
+
+    if (!user) {
+      throw new Error("Usuário não encontrado.");
+    }
+
+    // Gere um novo accessToken
+    const newAccessToken = generateAccessToken(user);
 
     return { accessToken: newAccessToken };
   } catch (err) {
-    console.error(err.message); // Log do erro para debugging
+    console.error(err.message);
     throw new Error("Não foi possível renovar o token de acesso.");
   }
 };

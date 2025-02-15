@@ -56,10 +56,12 @@ function Navbar() {
   async function handleLogin(email, password) {
     try {
       const { data } = await api.post("/auth/login", { email, password });
+
       localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken); 
+
       loadUserData();
       setModalOpen(false);
-      navigate("/listar-usuarios");
     } catch (error) {
       alert("Erro ao fazer login");
     }
@@ -67,16 +69,21 @@ function Navbar() {
 
   async function handleSignup(name, email, password) {
     try {
-      const { data } = await api.post("/cadastro", { name, email, password });
+      const { data } = await api.post("/auth/register", {
+        name,
+        email,
+        password,
+      });
 
       localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken); 
 
       setIsLoggedIn(true);
       setUserInfo({ name: data.name, avatar: data.avatar });
 
-      setModalOpen(false);
+      await loadUserData();
 
-      navigate("/listar-usuarios");
+      setModalOpen(false);
     } catch (error) {
       alert("Erro ao cadastrar");
     }
@@ -87,6 +94,8 @@ function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userRole");
     setIsLoggedIn(false);
     setUserInfo({ name: "Usuário", avatar: null });
     navigate("/");

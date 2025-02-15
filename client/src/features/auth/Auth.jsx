@@ -26,7 +26,7 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("userRole", data.role);
-
+      
       if (data.role === "admin") {
         navigate("/admin");
       } else {
@@ -36,7 +36,7 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
       window.location.reload();
       setModalOpen(false);
     } catch (error) {
-      console.error("Erro ao fazer login:", error);
+      console.error("Erro ao fazer login:", error.response?.data || error.message);
       alert("Erro ao fazer login. Verifique suas credenciais.");
     }
   }

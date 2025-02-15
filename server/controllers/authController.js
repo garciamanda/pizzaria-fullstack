@@ -25,7 +25,8 @@ export const login = async (req, res) => {
 
     res.json({ accessToken, refreshToken, role: user.role });
   } catch (err) {
-    res.status(500).json({ error: "Erro ao fazer login." });
+    console.error("Erro no login:", err); 
+    res.status(500).json({ error: err.message || "Erro ao fazer login." });
   }
 };
 
@@ -68,7 +69,7 @@ export const register = async (req, res) => {
     const accessToken = generateAccessToken(user);
     const refreshToken = await generateRefreshToken(user);
 
-    res.json({ accessToken, refreshToken });
+    res.json({ accessToken, refreshToken, role: user.role });
   } catch (err) {
     console.error("Erro ao registrar usuário:", err);
     res
