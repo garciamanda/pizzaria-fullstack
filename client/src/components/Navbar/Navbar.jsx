@@ -58,7 +58,7 @@ function Navbar() {
       const { data } = await api.post("/auth/login", { email, password });
 
       localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken); 
+      localStorage.setItem("refreshToken", data.refreshToken);
 
       loadUserData();
       setModalOpen(false);
@@ -76,7 +76,7 @@ function Navbar() {
       });
 
       localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken); 
+      localStorage.setItem("refreshToken", data.refreshToken);
 
       setIsLoggedIn(true);
       setUserInfo({ name: data.name, avatar: data.avatar });
@@ -181,6 +181,13 @@ function Navbar() {
                   <h3 className="text-lg font-medium">Olá, {userInfo.name}!</h3>
                 </div>
                 <hr className="my-2" />
+                <button
+                  onClick={handleLogout}
+                  className="block py-2 hover:bg-gray-200 w-full text-left"
+                >
+                  <i class="bx bx-cog mr-2" />
+                  Configurações
+                </button>
                 <button
                   onClick={handleLogout}
                   className="block py-2 hover:bg-gray-200 w-full text-left"

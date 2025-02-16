@@ -14,8 +14,8 @@ function AdminPage() {
           "Você não tem permissão para acessar esta página. Clique em OK para voltar."
         )
       ) {
-        navigate("/");
-      }
+        navigate("/"); 
+      } 
     }
   }, [navigate]);
 

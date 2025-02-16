@@ -11,7 +11,7 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
   const nameRef = useRef();
   //   const avatarRef = useRef();
   const formRef = useRef();
-
+  
   const navigate = useNavigate();
 
   async function handleLoginSubmit(e) {
