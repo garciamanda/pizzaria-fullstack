@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Modal from "../../components/Modal/ModalProduto";
 import "./index.css";
-
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import { ArrowLeft, ArrowRight, ShoppingCart } from "phosphor-react";
-
 import { EffectCoverflow, Navigation } from "swiper/modules";
-
 import slide_image1 from "/assets/tranding-food-1.png";
 import slide_image2 from "/assets/pizza8.webp";
 import slide_image3 from "/assets/pizza7.webp";
@@ -16,8 +13,9 @@ import slide_image4 from "/assets/pizzas10.png";
 import slide_image5 from "/assets/pizza5.avif";
 import slide_image6 from "/assets/jardineira-delicioso.jpg";
 import slide_image7 from "/assets/pizza(18).jpg";
-
 import Produto from "../../components/Produto/Produto";
+import { UserContext } from "../../context/UserContext";
+import Spinner from "../../components/Spinner/Spinner";
 
 function Home() {
   const [isFloating, setIsFloating] = useState(false);

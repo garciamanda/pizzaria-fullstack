@@ -73,7 +73,7 @@ export const refreshAccessToken = async (refreshToken) => {
 
     return { accessToken: newAccessToken };
   } catch (err) {
-    console.error(err.message);
+    console.error("Erro ao renovar o token de acesso:", err.message);
     throw new Error("Não foi possível renovar o token de acesso.");
   }
 };

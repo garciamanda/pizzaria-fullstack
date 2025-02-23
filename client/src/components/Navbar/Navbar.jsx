@@ -1,66 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthModal from "../../features/auth/Auth";
-
+import { UserContext } from "../../context/UserContext";
+import Spinner from "../Spinner/Spinner";
 import "./navbar.css";
 import api from "../../services/api";
 
 function Navbar() {
+  const { setUserData, userData, loading } = useContext(UserContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userInfo, setUserInfo] = useState({
-    avatar: null,
-    name: "Usuário",
-  });
   const [menuOpen, setMenuOpen] = useState(false);
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [loadingDelay, setLoadingDelay] = useState(true);
   const navigate = useNavigate();
 
-  const loadUserData = async () => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      try {
-        const { data } = await api.get("/auth/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setIsLoggedIn(true);
-        setUserInfo({ name: data.name, avatar: data.avatar });
-        console.log(data);
-      } catch (error) {
-        console.error(
-          "Erro ao obter dados do usuário:",
-          error.response || error.message
-        );
-        setIsLoggedIn(false);
-        setUserInfo({ name: "Usuário", avatar: null });
-      }
+  useEffect(() => {
+    if (userData) {
+      setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
-      setUserInfo({ name: "Usuário", avatar: null });
     }
-
-    setTimeout(() => {
-      setLoading(false);
-      setLoadingDelay(false);
-    }, 1000);
-  };
-
-  useEffect(() => {
-    loadUserData();
-  }, []);
+  }, [userData]);
 
   async function handleLogin(email, password) {
     try {
       const { data } = await api.post("/auth/login", { email, password });
 
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("accessToken", data.accessToken); // Armazenar apenas o accessToken
 
-      loadUserData();
+      setUserData(data); // Atualizar o estado do usuário
+      setIsLoggedIn(true);
       setModalOpen(false);
     } catch (error) {
       alert("Erro ao fazer login");
@@ -75,14 +44,10 @@ function Navbar() {
         password,
       });
 
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("accessToken", data.accessToken); // Armazenar apenas o accessToken
 
+      setUserData(data); // Atualizar o estado do usuário
       setIsLoggedIn(true);
-      setUserInfo({ name: data.name, avatar: data.avatar });
-
-      await loadUserData();
-
       setModalOpen(false);
     } catch (error) {
       alert("Erro ao cadastrar");
@@ -93,18 +58,17 @@ function Navbar() {
   const toggleSubMenu = () => setSubMenuOpen(!subMenuOpen);
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("userRole");
+    localStorage.removeItem("accessToken"); // Remover apenas o accessToken
+    localStorage.removeItem("userRole"); // Remover role do usuário
     setIsLoggedIn(false);
-    setUserInfo({ name: "Usuário", avatar: null });
+    setUserData(null);
     navigate("/");
   };
 
-  if (loadingDelay) {
+  if (loading) {
     return (
-      <div className="flex items-center justify-center w-full h-screen bg-red-800 bg-opacity-50">
-        <div className="spinner opacity-100">Carregando...</div>
+      <div className="flex justify-center items-center h-screen">
+        <Spinner /> {/* Certifique-se de ter um componente Spinner! */}
       </div>
     );
   }
@@ -140,12 +104,12 @@ function Navbar() {
 
         {isLoggedIn ? (
           <div className="relative">
-            {userInfo.avatar ? (
+            {userData?.avatar ? (
               <img
                 src={
-                  userInfo.avatar.startsWith("http")
-                    ? userInfo.avatar
-                    : `http://localhost:3000${userInfo.avatar}`
+                  userData.avatar.startsWith("http")
+                    ? userData.avatar
+                    : `http://localhost:3000${userData.avatar}`
                 }
                 alt="Avatar"
                 className="h-12 w-12 rounded-full cursor-pointer"
@@ -161,12 +125,12 @@ function Navbar() {
             {subMenuOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white text-black shadow-lg rounded-lg p-4">
                 <div className="flex items-center gap-2">
-                  {userInfo.avatar ? (
+                  {userData?.avatar ? (
                     <img
                       src={
-                        userInfo.avatar.startsWith("http")
-                          ? userInfo.avatar
-                          : `http://localhost:3000${userInfo.avatar}`
+                        userData.avatar.startsWith("http")
+                          ? userData.avatar
+                          : `http://localhost:3000${userData.avatar}`
                       }
                       alt="Avatar"
                       className="h-12 w-12 rounded-full cursor-pointer"
@@ -178,14 +142,14 @@ function Navbar() {
                       onClick={toggleSubMenu}
                     />
                   )}
-                  <h3 className="text-lg font-medium">Olá, {userInfo.name}!</h3>
+                  <h3 className="text-lg font-medium">Olá, {userData.name}!</h3>
                 </div>
                 <hr className="my-2" />
                 <button
                   onClick={handleLogout}
                   className="block py-2 hover:bg-gray-200 w-full text-left"
                 >
-                  <i class="bx bx-cog mr-2" />
+                  <i className="bx bx-cog mr-2" />
                   Configurações
                 </button>
                 <button

@@ -1,7 +1,6 @@
 import api from "../../services/api";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { GoogleLogin } from "@react-oauth/google";
 
 function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
@@ -9,9 +8,8 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
   const emailRef = useRef();
   const passwordRef = useRef();
   const nameRef = useRef();
-  //   const avatarRef = useRef();
   const formRef = useRef();
-  
+
   const navigate = useNavigate();
 
   async function handleLoginSubmit(e) {
@@ -26,7 +24,7 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("userRole", data.role);
-      
+
       if (data.role === "admin") {
         navigate("/admin");
       } else {
@@ -36,7 +34,10 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
       window.location.reload();
       setModalOpen(false);
     } catch (error) {
-      console.error("Erro ao fazer login:", error.response?.data || error.message);
+      console.error(
+        "Erro ao fazer login:",
+        error.response?.data || error.message
+      );
       alert("Erro ao fazer login. Verifique suas credenciais.");
     }
   }
@@ -44,23 +45,28 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
   async function handleSignupSubmit(e) {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("name", nameRef.current.value);
-    formData.append("email", emailRef.current.value);
-    formData.append("password", passwordRef.current.value);
+    const formData = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
 
     try {
       const { data } = await api.post("/auth/register", formData);
 
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("userRole", data.role);
 
       handleLogin(emailRef.current.value, passwordRef.current.value);
 
       setModalOpen(false);
     } catch (error) {
       alert("Erro ao cadastrar");
-      console.error(error);
+      console.error(
+        "Erro ao cadastrar:",
+        error.response?.data || error.message
+      );
     }
   }
 
@@ -77,7 +83,10 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
       setModalOpen(false);
     } catch (error) {
       alert("Erro ao autenticar com o Google");
-      console.error(error);
+      console.error(
+        "Erro ao autenticar com o Google:",
+        error.response?.data || error.message
+      );
     }
   };
 
