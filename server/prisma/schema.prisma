@@ -20,6 +20,7 @@ model User {
   password String?
   tokens   Token[]
   avatar   String?
+  googleId String? @unique
   role     String  @default("user")
   orders   Order[]
 }

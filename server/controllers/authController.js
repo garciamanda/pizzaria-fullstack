@@ -1,3 +1,4 @@
+import { OAuth2Client } from "google-auth-library";
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -7,7 +8,45 @@ import {
 import prisma from "../config/db.js";
 import bcrypt from "bcrypt";
 
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+export const googleLogin = async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    const ticket = await googleClient.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const { name, email, sub: googleId } = ticket.getPayload();
+
+    let user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          name,
+          email,
+          googleId,
+        },
+      });
+    }
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = await generateRefreshToken(user);
+
+    res.json({ accessToken, refreshToken, role: user.role });
+  } catch (error) {
+    console.error("Erro ao autenticar com Google:", error);
+    res.status(500).json({ error: "Erro ao autenticar com o Google." });
+  }
+};
+
 // login usuário
+
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -25,7 +64,7 @@ export const login = async (req, res) => {
 
     res.json({ accessToken, refreshToken, role: user.role });
   } catch (err) {
-    console.error("Erro no login:", err); 
+    console.error("Erro no login:", err);
     res.status(500).json({ error: err.message || "Erro ao fazer login." });
   }
 };

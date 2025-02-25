@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  googleLogin,
   register,
   login,
   logout,
@@ -11,6 +12,8 @@ import { authenticate } from "../middlewares/authMiddleware.js";
 const router = express.Router();
 
 // Rotas de autenticação
+
+router.post("/google", googleLogin);
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);

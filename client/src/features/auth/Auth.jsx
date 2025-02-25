@@ -22,7 +22,6 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
       });
 
       localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("userRole", data.role);
 
       if (data.role === "admin") {
@@ -55,7 +54,6 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
       const { data } = await api.post("/auth/register", formData);
 
       localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("userRole", data.role);
 
       handleLogin(emailRef.current.value, passwordRef.current.value);
@@ -72,12 +70,16 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
 
   const handleGoogleLogin = async (response) => {
     try {
+      console.log("Google login response:", response);
       const googleToken = response.credential;
 
+      console.log("Google token:", googleToken);
+
       const { data } = await api.post("/auth/google", { token: googleToken });
+      console.log("API response data:", data);
 
       localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("userRole", data.role);
 
       window.location.reload();
       setModalOpen(false);

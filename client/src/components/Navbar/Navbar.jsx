@@ -26,9 +26,9 @@ function Navbar() {
     try {
       const { data } = await api.post("/auth/login", { email, password });
 
-      localStorage.setItem("accessToken", data.accessToken); // Armazenar apenas o accessToken
+      localStorage.setItem("accessToken", data.accessToken);
 
-      setUserData(data); // Atualizar o estado do usuário
+      setUserData(data);
       setIsLoggedIn(true);
       setModalOpen(false);
     } catch (error) {
@@ -44,9 +44,9 @@ function Navbar() {
         password,
       });
 
-      localStorage.setItem("accessToken", data.accessToken); // Armazenar apenas o accessToken
+      localStorage.setItem("accessToken", data.accessToken);
 
-      setUserData(data); // Atualizar o estado do usuário
+      setUserData(data);
       setIsLoggedIn(true);
       setModalOpen(false);
     } catch (error) {
@@ -58,11 +58,15 @@ function Navbar() {
   const toggleSubMenu = () => setSubMenuOpen(!subMenuOpen);
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken"); // Remover apenas o accessToken
-    localStorage.removeItem("userRole"); // Remover role do usuário
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("userRole");
     setIsLoggedIn(false);
     setUserData(null);
     navigate("/");
+  };
+
+  const handleSettings = () => {
+    navigate("/user-settings");
   };
 
   if (loading) {
@@ -146,7 +150,7 @@ function Navbar() {
                 </div>
                 <hr className="my-2" />
                 <button
-                  onClick={handleLogout}
+                  onClick={handleSettings}
                   className="block py-2 hover:bg-gray-200 w-full text-left"
                 >
                   <i className="bx bx-cog mr-2" />
