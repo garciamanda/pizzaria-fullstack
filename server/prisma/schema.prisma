@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,36 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  name     String
-  password String?
-  tokens   Token[]
-  avatar   String?
-  googleId String? @unique
-  role     String  @default("user")
-  orders   Order[]
-}
-
-model Token {
-  id        Int      @id @default(autoincrement())
-  token     String   @unique @db.VarChar(255)
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-}
-
-model Pizza {
-  id          Int     @id @default(autoincrement())
-  name        String  @unique
-  description String
-  price       Float
-  imageUrl    String
-  orders      Order[]
-}
-
-model Order {
+model order {
   id        Int      @id @default(autoincrement())
   userId    Int
   pizzaId   Int
@@ -50,7 +15,40 @@ model Order {
   total     Float
   status    String   @default("pending")
   createdAt DateTime @default(now())
+  pizza     pizza    @relation(fields: [pizzaId], references: [id], onDelete: Cascade, map: "Order_pizzaId_fkey")
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Order_userId_fkey")
 
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  pizza Pizza @relation(fields: [pizzaId], references: [id], onDelete: Cascade)
+  @@index([pizzaId], map: "Order_pizzaId_fkey")
+  @@index([userId], map: "Order_userId_fkey")
+}
+
+model pizza {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique(map: "Pizza_name_key")
+  description String
+  price       Float
+  imageUrl    String
+  order       order[]
+}
+
+model token {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique(map: "Token_token_key") @db.VarChar(255)
+  userId    Int
+  createdAt DateTime @default(now())
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Token_userId_fkey")
+
+  @@index([userId], map: "Token_userId_fkey")
+}
+
+model user {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique(map: "User_email_key")
+  name     String
+  password String?
+  avatar   String?
+  role     String  @default("user")
+  googleId String? @unique(map: "User_googleId_key")
+  order    order[]
+  token    token[]
 }

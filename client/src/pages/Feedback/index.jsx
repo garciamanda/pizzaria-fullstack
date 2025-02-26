@@ -1,9 +1,11 @@
 import React from "react";
-
+import "./index.css";
 function Feedback() {
   return (
-    <div className="feedback mt-60">
-      <h1>Feedback</h1>
+    <div className="feedback mt-32 h-screen w-full ">
+      <div className="container  ">
+        <h1>oi</h1>
+      </div>
     </div>
   );
 }
