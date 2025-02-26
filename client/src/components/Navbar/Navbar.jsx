@@ -157,12 +157,22 @@ function Navbar() {
                   Configurações
                 </button>
                 <button
+                  className="block py-2 hover:bg-gray-200 w-full text-left"
+                  onClick={() => {
+                    navigate("/support");
+                  }}
+                >
+                  <i className="bx bx-support mr-2" />
+                  Suporte
+                </button>
+                <button
                   onClick={handleLogout}
                   className="block py-2 hover:bg-gray-200 w-full text-left"
                 >
                   <i className="bx bx-log-out mr-2" />
                   Sair
                 </button>
+                {/* botao com icone de suporte */}
               </div>
             )}
           </div>

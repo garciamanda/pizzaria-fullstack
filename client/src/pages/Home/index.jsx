@@ -356,15 +356,6 @@ function Home() {
                 </div>
               </div>
             </SwiperSlide>
-
-            <div className="slider-nav ">
-              <div className="swiper-button-prev">
-                <ArrowLeft size={30} />
-              </div>
-              <div className="swiper-button-next">
-                <ArrowRight size={30} />
-              </div>
-            </div>
           </Swiper>
         </div>
       </section>

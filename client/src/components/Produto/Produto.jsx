@@ -24,7 +24,11 @@ function Produto({ imagem, nome, descricao, preco }) {
           <p className="preco-cardapio text-[15px] font-bold">R$ {preco}</p>
         </div>
       </div>
-      <ModalProduto modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      <ModalProduto
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        imagem={imagem}
+      />
     </div>
   );
 }
