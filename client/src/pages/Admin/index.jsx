@@ -21,7 +21,11 @@ function AdminPage() {
     return <div>Carregando...</div>;
   }
 
-  return <div className="mt-50">Admin</div>;
+  return (
+    <h1>
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus aspernatur provident ratione saepe exercitationem neque consectetur aut quam! Eos, sed quaerat adipisci amet inventore quibusdam corrupti eaque minus cumque praesentium!
+    </h1>
+  )
 }
 
 export default AdminPage;
