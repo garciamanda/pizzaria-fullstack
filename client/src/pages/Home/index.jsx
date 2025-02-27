@@ -14,7 +14,7 @@ import slide_image5 from "/assets/pizza5.avif";
 import slide_image6 from "/assets/jardineira-delicioso.jpg";
 import slide_image7 from "/assets/pizza(18).jpg";
 import Produto from "../../components/Produto/Produto";
-import { UserContext } from "../../context/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import Spinner from "../../components/Spinner/Spinner";
 
 function Home() {

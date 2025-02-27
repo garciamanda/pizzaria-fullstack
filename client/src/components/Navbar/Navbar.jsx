@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
+import Logo from "/assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import AuthModal from "../../features/auth/Auth";
-import { UserContext } from "../../context/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import Spinner from "../Spinner/Spinner";
 import "./navbar.css";
 import api from "../../services/api";
@@ -81,7 +82,7 @@ function Navbar() {
     <header className="flex items-center justify-between p-4 bg-[#a50c0c] text-white shadow-md z-50 fixed top-0 left-0 w-[100%] pt-[5px] pr-[100px]">
       <div className="logo">
         <img
-          src="/assets/logo.png"
+          src={Logo}
           alt="Logo"
           className="w-[110px] rounded-[50%] ml-14"
         />
