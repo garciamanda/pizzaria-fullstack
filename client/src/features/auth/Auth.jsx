@@ -99,7 +99,6 @@ function AuthModal({ modalOpen, setModalOpen, handleLogin, handleSignup }) {
   }
 
   function closeModal() {
-    console.log("Modal fechado");
     setModalOpen(false);
   }
 

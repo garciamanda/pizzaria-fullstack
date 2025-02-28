@@ -28,6 +28,9 @@ function Produto({ imagem, nome, descricao, preco }) {
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         imagem={imagem}
+        nome={nome}
+        descricao={descricao}
+        preco={preco}
       />
     </div>
   );
