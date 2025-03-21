@@ -1,0 +1,30 @@
+:root {
+  --cor-primaria: #9B111E;
+  --cor-secundaria: #f1f1f1;
+}
+
+.modal-open {
+  overflow: hidden;
+}
+
+.ingrediente::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+  .ingrediente::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .ingrediente::-webkit-scrollbar-thumb {
+    background: #9B111E; 
+    border-radius: 10px; 
+  }
+  
+  .ingrediente::-webkit-scrollbar-thumb:hover {
+    background: #ad1827;
+  }
+
+  .text-red-500 {
+    color: #ff4d4d;
+    font-size: 16px;
+  } 
