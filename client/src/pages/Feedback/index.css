@@ -124,3 +124,27 @@ form {
   transform-origin: center center;
   transition: transform 0.3s ease-in-out;
 }
+
+#icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.bx.bxl-facebook, .bx.bxl-instagram, .bx.bxl-tiktok{
+  border-radius: 50%;
+  margin: 0px 35px 35px 35px;
+  color: white;
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  
+}
+
+
+
+.bx.bxl-facebook:hover, .bx.bxl-instagram:hover, .bx.bxl-tiktok:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}

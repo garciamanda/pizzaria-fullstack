@@ -7,8 +7,13 @@ function Feedback() {
 
   return (
     <div className="feedback mt-32 h-[86vh] w-full flex">
-      <div className="sessaofeedback h-[60vh] w-[45%] flex flex-col justify-center items-center mt-15">
-        <h1 className="text-[80px] text-white font-bold">Sessão - <br /> Feedback</h1>
+      <div className="sessaofeedback h-[60vh] w-[45%] flex flex-col  justify-center items-center gap-50 mt-15">
+        <h1 className="text-[80px] text-white font-bold mt-50">Sessão - <br /> Feedback</h1>
+        <div id="icons" className="">
+          <i className='bx bxl-facebook'></i> 
+          <i className='bx bxl-instagram'></i>
+          <i className='bx bxl-tiktok'></i>
+        </div>
       </div>
       
       <div className="enviarfeedback h-[65vh] w-[45%] flex justify-center items-center mt-20">
