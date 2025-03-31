@@ -1,23 +1,26 @@
 import React, { useRef, useEffect, useState } from "react";
-import "./ModalProduto.css"; // Importa o arquivo CSS
+import "./ModalProduto.css";
+import Modalbutton from "../modalbuton/Modalbotão";
 
 function ModalProduto({
   modalOpen,
   setModalOpen,
   imagem,
   nome,
-  descricao,
+  descricao, 
   preco,
 }) {
   const formRef = useRef(null);
   const [selectedCount, setSelectedCount] = useState(0);
   const [message, setMessage] = useState("escolha até 10 opções");
+  const [quantity, setQuantity] = useState(1); // Estado para controlar a quantidade
 
   function handleOutsideClick(e) {
     if (formRef.current && !formRef.current.contains(e.target)) {
       setModalOpen(false);
     }
   }
+
 
   function closeModal(event) {
     event.stopPropagation(); // Previne conflitos de clique
@@ -28,6 +31,7 @@ function ModalProduto({
   useEffect(() => {
     if (modalOpen) {
       document.body.classList.add("modal-open");
+      console.log("abrindo modal")
       document.addEventListener("mousedown", handleOutsideClick);
       return () => {
         document.body.classList.remove("modal-open");
@@ -49,6 +53,14 @@ function ModalProduto({
     });
   };
 
+  const incrementQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const decrementQuantity = () => {
+    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+  };
+
   return (
     modalOpen && (
       <div
@@ -67,23 +79,57 @@ function ModalProduto({
           >
             &times;
           </button>
-          <div className="m-3 flex flex-col justify-center items-center w-1/2" id="imagem">
-            <img className="max-h-full max-w-full h-[22rem] rounded-xl" src={imagem} alt={nome} />
+          <div
+            className="m-3 flex flex-col justify-center items-center w-1/2"
+            id="imagem"
+          >
+            <img
+              className="max-h-full max-w-full h-[22rem] rounded-xl"
+              src={imagem}
+              alt={nome}
+            />
           </div>
-          <div className="flex flex-col w-2/3 border-l border-gray-300" id="produtos">
-            <div className="bg-gray-200 p-3 h-[4rem] rounded-tr-lg mb-[-20px]" id="nome">
+          <div
+            className="flex flex-col w-2/3 border-l border-gray-300"
+            id="produtos"
+          >
+            <div
+              className="bg-gray-200 p-3 h-[4rem] rounded-tr-lg mb-[-20px]"
+              id="nome"
+            >
               <h2 className="text-1xl text-[#666666] font-bold">Produtos</h2>
             </div>
-            <div className="bg-white p-2 rounded-t-[1.5rem] z-[1] border-t border-gray-300 top-[14.4rem] w-[35rem]" id="descricao">
-              <h2 className="text-2xl font-bold text-[#141414] text-center">{nome}</h2>
-              <p className="text-[13.7px] px-2 text-[#666666] tracking-[-1px] opacity-75">{descricao}</p>
+            <div
+              className="bg-white p-2 rounded-t-[1.5rem] z-[1] border-t border-gray-300 top-[14.4rem] w-[35rem]"
+              id="descricao"
+            >
+              <h2 className="text-2xl font-bold text-[#141414] text-center">
+                {nome}
+              </h2>
+              <p className="text-[13.7px] px-2 text-[#666666] tracking-[-1px] opacity-75">
+                {descricao}
+              </p>
               <p className="text-[17px] px-2 text-[#141414]">R$ {preco}</p>
             </div>
-            <div id="ingrediente-escolha" className="bg-gray-200 p-3 h-[5rem] border-t border-b border-gray-300">
-              <h2 className="text-1xl text-[#141414] font-bold">Igredientes adicionais</h2>
-              <p className={`text-[14px] font-serif ${selectedCount > 10 ? 'text-red-500' : 'text-[#666666]'} opacity-80`}>{message}</p>
+            <div
+              id="ingrediente-escolha"
+              className="bg-gray-200 p-3 h-[5rem] border-t border-b border-gray-300"
+            >
+              <h2 className="text-1xl text-[#141414] font-bold">
+                Igredientes adicionais
+              </h2>
+              <p
+                className={`text-[14px] font-serif ${
+                  selectedCount > 10 ? "text-red-500" : "text-[#666666]"
+                } opacity-80`}
+              >
+                {message}
+              </p>
             </div>
-            <div id="ingrediente" className="ingrediente border-b border-gray-300 h-[17rem] leading-[2.5rem] p-[1rem] m-[rem] bg-gray-100 overflow-y-auto">
+            <div
+              id="ingrediente"
+              className="ingrediente border-b border-gray-300 h-[19rem] leading-[2.2rem] p-[1rem] m-[rem] bg-gray-100 overflow-y-auto"
+            >
               <div className="flex justify-between items-center">
                 <label htmlFor="ingrediente1">Cebola</label>
                 <input
@@ -205,10 +251,16 @@ function ModalProduto({
                 />
               </div>
             </div>
-            <div id="comprar" className="bg-gray-200 p-9 rounded-br-lg">
-              <button className="bg-[#000000] text-white font-bold py-2 px-4 rounded">Comprar</button>
-
-            </div>
+            <div id="quantidade/botão" className="flex justify-center items-center space-x-2 h-[4.9rem] ml-[4.6rem]">
+                <button onClick={decrementQuantity} className="bg-gray-200 rounded px-6 h-[3.4rem]">
+                  -
+                </button>
+                <span className="w-8 text-center">{quantity}</span>
+                <button onClick={incrementQuantity} className="bg-gray-200 rounded px-6 h-[3.4rem]">
+                  +
+                </button>
+                <Modalbutton />
+              </div>
           </div>
         </div>
       </div>

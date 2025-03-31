@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Modal from "../../components/Modal/ModalProduto";
+import ModalEntradas from "../../components/Modal/ModalEntradas";
 import "./index.css";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
@@ -19,7 +19,13 @@ import Spinner from "../../components/Spinner/Spinner";
 
 function Home() {
   const [isFloating, setIsFloating] = useState(false);
+  const [modalEntradasOpen, setModalEntradasOpen] = useState(false);
+  const [selectedEntrada, setSelectedEntrada] = useState(null);
 
+  const handleEntradaClick = (entrada) => {
+    setSelectedEntrada(entrada);
+    setModalEntradasOpen(true);
+  };
   useEffect(() => {
     const handleScroll = () => {
       const cardapioSection = document.getElementById("card-cardapio");
@@ -51,6 +57,7 @@ function Home() {
       descricao:
         "Uma deliciosa explosão de sabor doce, coberta com uma generosa camada de chocolate derretido e finalizada com um toque especial para os apaixonados por sobremesas.",
       preco: "30.25",
+      ingredientes: ["Chocolate", "Granulado", "Morango"],
     },
     {
       imagem: "/assets/pizza(13).jpg",
@@ -58,6 +65,7 @@ function Home() {
       descricao:
         "A clássica pizza de calabresa, com fatias suculentas, cebolas fresquinhas e uma pitada de orégano, perfeita para os amantes de sabores intensos.",
       preco: "28.90",
+      ingredientes: ["Calabresa", "Cebola", "Orégano", "Queijo"],
     },
     {
       imagem: "/assets/pizza(16).jpg",
@@ -65,6 +73,7 @@ function Home() {
       descricao:
         "Recheada com carne moída temperada, pimentões coloridos e uma camada irresistível de queijo derretido, essa é a escolha certa para quem adora um toque caseiro.",
       preco: "32.00",
+      ingredientes: ["Carne moída", "Pimentão", "Queijo", "Cebola"],
     },
     {
       imagem: "/assets/pizza(22).jpg",
@@ -72,6 +81,7 @@ function Home() {
       descricao:
         "Frango desfiado suculento, combinado com requeijão cremoso e um toque especial de temperos, trazendo leveza e sabor em cada fatia.",
       preco: "29.90",
+      ingredientes: ["Frango desfiado", "Requeijão", "Tempero especial"],
     },
   ];
 
@@ -405,7 +415,7 @@ function Home() {
         </div>
 
         <div
-          className="cardapio grid  gap-x-[1px] gap-y-5 lg:ml-20 md:ml-20 ml-5 mr-5 mt-2 mb-8 px-0"
+          className="cardapio grid gap-x-[1px] gap-y-5 lg:ml-20 md:ml-20 ml-5 mr-5 mt-2 mb-8 px-0"
           id="cardapio-entradas"
         >
           {entradas.map((entrada, index) => (
@@ -415,9 +425,21 @@ function Home() {
               nome={entrada.nome}
               descricao={entrada.descricao}
               preco={entrada.preco}
+              onClick={() => handleEntradaClick(entrada)} // Passa a função corretamente
             />
           ))}
         </div>
+
+        {modalEntradasOpen && (
+          <ModalEntradas
+            modalEntradasOpen={modalEntradasOpen} // Corrigido para usar o nome correto
+            setModalEntradasOpen={setModalEntradasOpen} // Corrigido para usar o nome correto
+            imagem={selectedEntrada.imagem}
+            nome={selectedEntrada.nome}
+            descricao={selectedEntrada.descricao}
+            preco={selectedEntrada.preco}
+          />
+        )}
 
         <div className="cardapio-title mb-7">
           <h2 className="mt-12 text-center md:text-left md:ml-20 lg:text-left font-extrabold text-2xl lg:text-4xl lg:ml-20">

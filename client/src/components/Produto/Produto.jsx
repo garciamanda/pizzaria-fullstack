@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import ModalProduto from "../Modal/ModalProduto";
 
-function Produto({ imagem, nome, descricao, preco }) {
+function Produto({ imagem, nome, descricao, preco, onClick }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <div
       className="cardapio-content m-0 p-3 flex border border-gray-300 rounded-lg bg-white shadow-md max-w-[400px] gap-4"
-      onClick={() => setModalOpen(true)}
+      onClick={onClick || (() => setModalOpen(true))} // Usa onClick se fornecido, caso contrário, abre o ModalProduto
     >
       <img
         src={imagem}
