@@ -53,10 +53,17 @@ function ModalEntradas({
       >
         <div
           ref={formRef}
-          className="w-[60rem] h-[39rem] mt-10 bg-white border border-gray-300 rounded-lg shadow-lg relative flex"
+          className="w-[60rem] h-[27rem] mt-10 bg-white border border-gray-300 rounded-lg shadow-lg relative flex"
           onClick={(e) => e.stopPropagation()} // Impede fechamento ao clicar no conteúdo
         >
           {/* Imagem do produto */}
+          <button
+            onClick={closeModal}
+            className="hover:text-red-700 size-0.5 text-black font-bold py-2 px-4 rounded absolute top-[-0rem] right-1"
+            title="Fechar"
+          >
+            &times;
+          </button>
           <div
             className="m-3 flex flex-col justify-center items-center w-1/2"
             id="imagem"
@@ -74,7 +81,7 @@ function ModalEntradas({
             id="produtos"
           >
             <div
-              className="bg-gray-200 p-3 h-[4rem] rounded-tr-lg mb-[-20px]"
+              className="bg-gray-200 p-3 rounded-tr-lg mb-[-16px]"
               id="nome"
             >
               <h2 className="text-1xl text-[#666666] font-bold">Entradas</h2>
@@ -102,7 +109,7 @@ function ModalEntradas({
               </h2>
               <input
                 type="text"
-                className="w-full p-2 border border-gray-300 rounded"
+                className="h-[9rem] w-full p-2 border border-gray-300 rounded"
                 placeholder="Digite aqui sua observação"
                 value={observacao}
                 onChange={(e) => setObservacao(e.target.value)}
@@ -117,25 +124,25 @@ function ModalEntradas({
               {/* Contador de quantidade */}
               <div
                 id="quantidade"
-                className="flex justify-center items-center space-x-4"
+                className="flex justify-center items-center space-x-3 h-[4rem]"
               >
                 <button
                   onClick={diminuirQuantidade}
-                  className="bg-gray-200 rounded px-4 h-[3.4rem] text-xl font-bold"
+                  className="bg-gray-200 rounded px-6 h-[3.4rem] font-bold"
                 >
                   -
                 </button>
-                <span className="text-xl font-bold">{quantidade}</span>
+                <span className=" font-bold">{quantidade}</span>
                 <button
                   onClick={aumentarQuantidade}
-                  className="bg-gray-200 rounded px-4 h-[3.4rem] text-xl font-bold"
+                  className="bg-gray-200 rounded px-6 h-[3.4rem] font-bold"
                 >
                   +
                 </button>
               </div>
 
               {/* Botão de ação */}
-              <div id="botao">
+              <div id="botao" className="p-[1rem]">
                 <Modalbutton />
               </div>
             </div>

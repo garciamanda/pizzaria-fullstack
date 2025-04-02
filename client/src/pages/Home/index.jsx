@@ -57,7 +57,6 @@ function Home() {
       descricao:
         "Uma deliciosa explosão de sabor doce, coberta com uma generosa camada de chocolate derretido e finalizada com um toque especial para os apaixonados por sobremesas.",
       preco: "30.25",
-      ingredientes: ["Chocolate", "Granulado", "Morango"],
     },
     {
       imagem: "/assets/pizza(13).jpg",
@@ -65,7 +64,6 @@ function Home() {
       descricao:
         "A clássica pizza de calabresa, com fatias suculentas, cebolas fresquinhas e uma pitada de orégano, perfeita para os amantes de sabores intensos.",
       preco: "28.90",
-      ingredientes: ["Calabresa", "Cebola", "Orégano", "Queijo"],
     },
     {
       imagem: "/assets/pizza(16).jpg",
@@ -73,7 +71,6 @@ function Home() {
       descricao:
         "Recheada com carne moída temperada, pimentões coloridos e uma camada irresistível de queijo derretido, essa é a escolha certa para quem adora um toque caseiro.",
       preco: "32.00",
-      ingredientes: ["Carne moída", "Pimentão", "Queijo", "Cebola"],
     },
     {
       imagem: "/assets/pizza(22).jpg",
@@ -81,7 +78,6 @@ function Home() {
       descricao:
         "Frango desfiado suculento, combinado com requeijão cremoso e um toque especial de temperos, trazendo leveza e sabor em cada fatia.",
       preco: "29.90",
-      ingredientes: ["Frango desfiado", "Requeijão", "Tempero especial"],
     },
   ];
 
@@ -442,6 +438,30 @@ function Home() {
         )}
 
         <div className="cardapio-title mb-7">
+          <h2 className="mt-12 ml-20 font-extrabold text-2xl lg:text-4xl">
+            Nossas Pizzas
+          </h2>
+          <p className="mt-4 text-[18px] text-[#808080] text-center md:text-left md:ml-20">
+            CONFIRA AS NOSSAS MELHORES PIZZAS!
+          </p>
+        </div>
+
+        <div
+          className="cardapio grid  gap-x-[1px] gap-y-5 lg:ml-20 md:ml-20 ml-5 mr-5 mt-2 mb-8 px-0"
+          id="cardapio-produtos"
+        >
+          {produtos.map((produto, index) => (
+            <Produto
+             key={index}
+              imagem={produto.imagem}
+              nome={produto.nome}
+              descricao={produto.descricao}
+              preco={produto.preco}
+            />
+          ))}
+        </div>
+
+        <div className="cardapio-title mb-7">
           <h2 className="mt-12 text-center md:text-left md:ml-20 lg:text-left font-extrabold text-2xl lg:text-4xl lg:ml-20">
             Bebidas
           </h2>
@@ -461,22 +481,11 @@ function Home() {
               nome={bebida.nome}
               descricao={bebida.descricao}
               preco={bebida.preco}
+              onClick={() => handleEntradaClick(bebida)}
             />
           ))}
         </div>
       </section>
-
-      <div
-        className={`fixed right-4 ${
-          isFloating ? "top-20" : "bottom-10"
-        } transition-all duration-300 z-50 bg-white shadow-lg p-4 rounded-2xl`}
-      >
-        <div className="flex items-center">
-          <ShoppingCart size={24} className="text-orange-500" />
-          <span className="ml-2 font-bold">Carrinho</span>
-        </div>
-        {/* Conteúdo do carrinho */}
-      </div>
     </main>
   );
 }
